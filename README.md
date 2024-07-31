@@ -2,7 +2,13 @@
 
 #### Overview
 
-Depends on the package [`barista_robot_description`](https://github.com/ivogeorg/barista_robot_description.git), but unless the barista robots provide a `robot_name` service, the depndence is indirect and the names of the two robots and their roles will be hardcoded in `RobotChase`.
+Depends on the package [`barista_robot_description`](https://github.com/ivogeorg/barista_robot_description.git), but unless the barista robots provide a `robot_name` service, the depndence is indirect and the names of the two robots and their roles will be hardcoded in `RobotChase`. This could be a separate `std_srvs/srv/Empty` service `barista_robot_names` node launched in `barista_two_robots.launch.py`, which returns 
+```
+robot_1_name string
+robot_1_role string
+robot_2_name string
+robot_2_role string
+```
 
 #### Implementation notes
 
