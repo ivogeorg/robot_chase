@@ -26,7 +26,7 @@ robot_2_role string
    2. However, `fromFrameRel` is initialized with something called `target_frame_`.
    3. The tutorial, however, is solving the very same problem, with `turtle1` and `turtle2`, so just follow along and later _rationalize_ the choice of frame naming.
       1. `turtle1` is the `MOVER` and is teleoperated. `target_frame_` and also `fromFrameRel` are of `turtle1`.
-      2. `turtle2` is the follower and receives velocity messages. `toFrameRel` is of `turtle2`. So, it looks like the transform is taken from the target (the `MOVER`) to the `FOLLOWER`. _TODO: It is a bit unintuitive that the velocities to be sent to the FOLLOWER will be extracted from such a tranform._
+      2. `turtle2` is the follower and receives velocity messages. `toFrameRel` is of `turtle2`. So, it looks like the transform is taken from the target (the `MOVER`) to the `FOLLOWER`. _TODO: It is a bit unintuitive that the velocities to be sent to the FOLLOWER will be extracted from such a tranform. The tutorial actually does exactly that._
 
 
 ##### 3. ROS objects
@@ -50,6 +50,15 @@ The relevant [tutorial](https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf
     ```
 4. Notice the order of the the frames in `lookupTransform`.  
 5. A velocity publisher of `geometry_msgs::msg::Twist` messages to topic `/rick/cmd_vel`.
+6. A timer is used to call the tf listener at a given period (or frequency).
+
+##### 4. Robot chase dynamics
+
+1. `FOLLOWER` follows `MOVER`.
+2. If the `MOVER` turns, the `FOLLOWER` turns, too.
+3. If the `MOVER` goes straight, `FOLLOWER` first picks up speed, then decelerates.
+4. If the `MOVER` stops, `FOLLOWER` approaches decelerating and stops, too. 
+5. It might be advantageous to borrow the parameter array of tuples from [`robot_patrol`](https://github.com/ivogeorg/robot_patrol/blob/7c9d6edda7bfc00803aba78509cf9fedba80a6c4/src/patrol_with_service.cpp#L116).  
 
 
 
