@@ -2,14 +2,45 @@
 
 #### Overview
 
-Depends on the package [`barista_robot_description`](https://github.com/ivogeorg/barista_robot_description.git), but unless the barista robots provide a `robot_name` service, the depndence is indirect and the names of the two robots and their roles will be hardcoded in `RobotChase`. This could be a separate `std_srvs/srv/Empty` service `barista_robot_names` node launched in `barista_two_robots.launch.py`, which returns 
-```
-robot_1_name string
-robot_1_role string
-robot_2_name string
-robot_2_role string
-```
+Depends on the existence of the package [`barista_robot_description`](https://github.com/ivogeorg/barista_robot_description.git). It uses a `tf2_ros::TransformerListener` to allow one robot to chase another as it moves.
 
+#### Submission notes
+
+1. Launching:
+   1. Start Gazebo and spawn the 2 robots:
+      ```
+      cd ~/ros2_ws/src
+      git clone https://github.com/ivogeorg/barista_robot_description.git
+      git clone https://github.com/ivogeorg/robot_chase.git
+      cd ~/ros2_ws
+      colcon build
+      source install/setup.bash
+      ros2 launch barista_robot_description barista_two_robots.launch.py
+      ```
+   2. Start the robot chase executable:
+      ``` 
+      cd ~/ros2_ws
+      source install/setup.bash
+      ros2 run robot_chase robot_chase
+      ```
+   3. Start the teleoperator for the robot that will be chased:
+      ```
+      ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/morty/cmd_vel
+      ```
+2. Note that once in a while, maybe if `robot_chase` is started too quickly after the robot spawning, `lookupTransform` fails reporting that there is no link between the source and target frames.
+3. Expected result:
+   | Robot chase |
+   | --- |
+   | ![Robot chase 1](assets/robot_chase_1.png) |
+   | ![Robot chase 2](assets/robot_chase_2.png) |
+   | ![Robot chase 3](assets/robot_chase_3.png) |
+   | ![Robot chase 4](assets/robot_chase_4.png) |
+   | ![Robot chase 5](assets/robot_chase_5.png) |
+   | ![Robot chase 6](assets/robot_chase_6.png) |
+   | ![Robot chase 7](assets/robot_chase_7.png) |
+   | ![Robot chase 8](assets/robot_chase_8.png) |
+   | ![Robot chase 9](assets/robot_chase_9.png) |
+   
 #### Implementation notes
 
 ##### 1. Robot names and roles
@@ -60,5 +91,16 @@ The relevant [tutorial](https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf
 4. If the `MOVER` stops, `FOLLOWER` approaches decelerating and stops, too. 
 5. It might be advantageous to borrow the parameter array of tuples from [`robot_patrol`](https://github.com/ivogeorg/robot_patrol/blob/7c9d6edda7bfc00803aba78509cf9fedba80a6c4/src/patrol_with_service.cpp#L116).  
 
+##### 5. Robot name service
 
+The `barista_robot_description` may provide a `robot_name` service. This could be a separate `std_srvs/srv/Empty` service `barista_robot_names` node launched in `barista_two_robots.launch.py`, which returns 
+```
+robot_1_name string
+robot_1_role string
+robot_2_name string
+robot_2_role string
+robot_radius float64
+```
+
+In this case there would be a client of the service in the `RobotChase` class. Currently, these values are hardcoded as arguments to the constructor.
 
