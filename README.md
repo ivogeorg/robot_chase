@@ -26,7 +26,7 @@ robot_2_role string
    2. However, `fromFrameRel` is initialized with something called `target_frame_`.
    3. The tutorial, however, is solving the very same problem, with `turtle1` and `turtle2`, so just follow along and later _rationalize_ the choice of frame naming.
       1. `turtle1` is the `MOVER` and is teleoperated. `target_frame_` and also `fromFrameRel` are of `turtle1`.
-      2. `turtle2` is the follower and receives velocity messages. `toFrameRel` is of `turtle2`. So, it looks like the transform is taken from the target (the `MOVER`) to the `FOLLOWER`. _TODO: It is a bit unintuitive that the velocities to be sent to the FOLLOWER will be extracted from such a tranform. The tutorial actually does exactly that._
+      2. `turtle2` is the `FOLLOWER` and receives velocity messages. `toFrameRel` is of `turtle2`. So, it looks like the transform is taken from the target (the `MOVER`) to the `FOLLOWER`. _TODO: It is a bit unintuitive that the velocities to be sent to the FOLLOWER will be extracted from such a tranform. The tutorial actually does exactly that._
 
 
 ##### 3. ROS objects

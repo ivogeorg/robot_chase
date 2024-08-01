@@ -10,8 +10,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(nav_msgs REQUIRED)
-find_package(barista_robot_description REQUIRED)
+# find_package(nav_msgs REQUIRED)
+# find_package(barista_robot_description REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -26,7 +26,8 @@ if(BUILD_TESTING)
 endif()
 
 add_executable(${PROJECT_NAME} src/${PROJECT_NAME}.cpp)
-ament_target_dependencies(${PROJECT_NAME} rclcpp tf2_ros geometry_msgs barista_robot_description)
+# ament_target_dependencies(${PROJECT_NAME} rclcpp tf2_ros geometry_msgs barista_robot_description)
+ament_target_dependencies(${PROJECT_NAME} rclcpp tf2_ros geometry_msgs)
 
 install(TARGETS
 	${PROJECT_NAME}
